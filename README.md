@@ -14,7 +14,19 @@ SpaceVim 离线安装脚本
 
 ## 离线安装(需要root权限)
 
-### 1. 安装依赖
+### 1. 安装nenvim
+
+```bash
+git clone https://github.com/neovim/neovim
+cd neovim/
+make
+sudo make install
+sudo mv /usr/bin/vim /usr/bin/vim~
+sudo ln -s /usr/local/bin/nvim /usr/bin/vim
+vim --version # 输出 NVIM v0.5.0-dev 说明安装成功
+```
+
+### 2. 安装依赖
 
 ```bash
 pip install --user --upgrade pynvim # neovim python插件依赖
@@ -27,13 +39,20 @@ pip install --user isort
 pip install jedi
 ```
 
-### 2. 安装 SpaceVim
+### 3. 安装 SpaceVim
 
 ```bash
+sudo yum -y install git-lfs
+git clone https://github.com/marmotedu/marmotVim
+cd marmotVim
+git lfs install
+git lfs track *.tgz
+rm *.tgz
+git checkout -- .
 ./marmotVimCtl install
 ```
 
-### 3. 删除 Spacevim
+### 4. 卸载 Spacevim
 
 ```bash
 ./marmotVimCtl uninstall
