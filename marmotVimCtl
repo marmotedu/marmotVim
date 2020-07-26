@@ -178,6 +178,7 @@ function uninstall() {
 
 function update() {
   tar cvzf SpaceVim.tgz -C $HOME .SpaceVim .SpaceVim.d .cache/vimfiles .cache/SpaceVim --exclude .cache/SpaceVim/backup --exclude .cache/SpaceVim/undofile
+  cp  $HOME/.SpaceVim.d/autoload/custom_init.vim .
 }
 
 function install() {
