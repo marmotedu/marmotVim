@@ -3,8 +3,6 @@ function! custom_init#before() abort
 "set noswapfile
 set mouse=a
 set wrap
-let g:spacevim_relativenumber = 0
-let g:spacevim_enable_cursorline = 0
 
 " golang configure ====> start
 let g:go_highlight_methods = 1                 
