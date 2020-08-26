@@ -32,11 +32,7 @@ vim --version # 输出 NVIM v0.5.0-dev 说明安装成功
 pip install --user --upgrade pynvim # neovim python插件依赖
 
 # python layer依赖，参考博客：https://blog.csdn.net/weixin_30471065/article/details/98710992?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~all~first_rank_v2~rank_v25-8-98710992.nonecase
-pip install --user flake8
-pip install --user yapf
-pip install --user autoflake
-pip install --user isort
-pip install jedi
+pip --user install flake8 yapf autoflake isort jedi pynvim
 ```
 
 ### 3. 安装 SpaceVim

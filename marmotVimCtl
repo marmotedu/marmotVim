@@ -77,154 +77,153 @@ On_IWhite='\033[0;107m'   # White
 
 # success/info/error/warn {{{        
 function msg() {                               
-   printf '%b\n' "$1" >&2          
+    printf '%b\n' "$1" >&2          
 }                                     
 
 function success() {                          
-   msg "${Green}[✔]${Color_off} ${1}${2}"    
+    msg "${Green}[✔]${Color_off} ${1}${2}"    
 }
 
 # install_neovim {{{    
 function install_neovim () {    
-  if [[ -d "$HOME/.config/nvim" ]]; then    
-    if [[ "$(readlink $HOME/.config/nvim)" =~ \.SpaceVim$ ]]; then    
-      success "Installed SpaceVim for neovim"    
+    if [[ -d "$HOME/.config/nvim" ]]; then    
+        if [[ "$(readlink $HOME/.config/nvim)" =~ \.SpaceVim$ ]]; then    
+            success "Installed SpaceVim for neovim"    
+        else    
+            mv "$HOME/.config/nvim" "$HOME/.config/nvim_back"    
+            success "BackUp $HOME/.config/nvim to $HOME/.config/nvim_back"    
+            ln -s "$HOME/.SpaceVim" "$HOME/.config/nvim"    
+            success "Installed SpaceVim for neovim"    
+        fi    
     else    
-      mv "$HOME/.config/nvim" "$HOME/.config/nvim_back"    
-      success "BackUp $HOME/.config/nvim to $HOME/.config/nvim_back"    
-      ln -s "$HOME/.SpaceVim" "$HOME/.config/nvim"    
-      success "Installed SpaceVim for neovim"    
+        mkdir -p "$HOME/.config"    
+        ln -s "$HOME/.SpaceVim" "$HOME/.config/nvim"    
+        success "Installed SpaceVim for neovim"    
     fi    
-  else    
-    mkdir -p "$HOME/.config"    
-    ln -s "$HOME/.SpaceVim" "$HOME/.config/nvim"    
-    success "Installed SpaceVim for neovim"    
-  fi    
 }    
 # }}}    
 
 # install_vim {{{
 function install_vim () {
-  if [[ -f "$HOME/.vimrc" ]]; then
-    mv "$HOME/.vimrc" "$HOME/.vimrc_back"
-    success "Backup $HOME/.vimrc to $HOME/.vimrc_back"
-  fi
-
-  if [[ -d "$HOME/.vim" ]]; then
-    if [[ "$(readlink $HOME/.vim)" =~ \.SpaceVim$ ]]; then
-      success "Installed SpaceVim for vim"
-    else
-      mv "$HOME/.vim" "$HOME/.vim_back"
-      success "BackUp $HOME/.vim to $HOME/.vim_back"
-      ln -s "$HOME/.SpaceVim" "$HOME/.vim"
-      success "Installed SpaceVim for vim"
+    if [[ -f "$HOME/.vimrc" ]]; then
+        mv "$HOME/.vimrc" "$HOME/.vimrc_back"
+        success "Backup $HOME/.vimrc to $HOME/.vimrc_back"
     fi
-  else
-    ln -s "$HOME/.SpaceVim" "$HOME/.vim"
-    success "Installed SpaceVim for vim"
-  fi
+
+    if [[ -d "$HOME/.vim" ]]; then
+        if [[ "$(readlink $HOME/.vim)" =~ \.SpaceVim$ ]]; then
+            success "Installed SpaceVim for vim"
+        else
+            mv "$HOME/.vim" "$HOME/.vim_back"
+            success "BackUp $HOME/.vim to $HOME/.vim_back"
+            ln -s "$HOME/.SpaceVim" "$HOME/.vim"
+            success "Installed SpaceVim for vim"
+        fi
+    else
+        ln -s "$HOME/.SpaceVim" "$HOME/.vim"
+        success "Installed SpaceVim for vim"
+    fi
 }
 # }}}
 
 # unstall_vim {{{
 function uninstall_vim () {
-  if [[ -d "$HOME/.vim" ]]; then
-    if [[ "$(readlink $HOME/.vim)" =~ \.SpaceVim$ ]]; then
-      rm "$HOME/.vim"
-      success "Uninstall SpaceVim for vim"
-      if [[ -d "$HOME/.vim_back" ]]; then
-        mv "$HOME/.vim_back" "$HOME/.vim"
-        success "Recover from $HOME/.vim_back"
-      fi
+    if [[ -d "$HOME/.vim" ]]; then
+        if [[ "$(readlink $HOME/.vim)" =~ \.SpaceVim$ ]]; then
+            rm "$HOME/.vim"
+            success "Uninstall SpaceVim for vim"
+            if [[ -d "$HOME/.vim_back" ]]; then
+                mv "$HOME/.vim_back" "$HOME/.vim"
+                success "Recover from $HOME/.vim_back"
+            fi
+        fi
     fi
-  fi
-  if [[ -f "$HOME/.vimrc_back" ]]; then
-    mv "$HOME/.vimrc_back" "$HOME/.vimrc"
-    success "Recover from $HOME/.vimrc_back"
-  fi
+    if [[ -f "$HOME/.vimrc_back" ]]; then
+        mv "$HOME/.vimrc_back" "$HOME/.vimrc"
+        success "Recover from $HOME/.vimrc_back"
+    fi
 }
 # }}}
 
 
 function uninstall_neovim () {
-  if [[ -d "$HOME/.config/nvim" ]]; then
-    if [[ "$(readlink $HOME/.config/nvim)" =~ \.SpaceVim$ ]]; then
-      rm "$HOME/.config/nvim"
-      success "Uninstall SpaceVim for neovim"
-      if [[ -d "$HOME/.config/nvim_back" ]]; then
-        mv "$HOME/.config/nvim_back" "$HOME/.config/nvim"
-        success "Recover from $HOME/.config/nvim_back"
-      fi
+    if [[ -d "$HOME/.config/nvim" ]]; then
+        if [[ "$(readlink $HOME/.config/nvim)" =~ \.SpaceVim$ ]]; then
+            rm "$HOME/.config/nvim"
+            success "Uninstall SpaceVim for neovim"
+            if [[ -d "$HOME/.config/nvim_back" ]]; then
+                mv "$HOME/.config/nvim_back" "$HOME/.config/nvim"
+                success "Recover from $HOME/.config/nvim_back"
+            fi
+        fi
     fi
-  fi
 }
 # }}}
 
 function cls() {
-  rm -rf $HOME/.vim*
+    rm -rf $HOME/.vim*
 }
 
 function clean() {
-  cls
-  uninstall
+    cls
+    uninstall
 }
 
 function uninstall() {
-  uninstall_neovim
-  rm -rf $HOME/.SpaceVim*
-  rm -rf $HOME/.cache/vimfiles $HOME/.cache/SpaceVim
-  rm -rf $HOME/.vim
+    uninstall_neovim
+    rm -rf $HOME/.SpaceVim*
+    rm -rf $HOME/.cache/vimfiles $HOME/.cache/SpaceVim
+    rm -rf $HOME/.vim
 }
 
 function update() {
-  tar cvzf SpaceVim.tgz -C $HOME .SpaceVim .SpaceVim.d .cache/vimfiles .cache/SpaceVim --exclude .cache/SpaceVim/backup --exclude .cache/SpaceVim/undofile
-  cp  $HOME/.SpaceVim.d/autoload/custom_init.vim .
+    tar -cvzf SpaceVim.tgz -C /home/colin --exclude=.cache/SpaceVim/backup --exclude=.cache/SpaceVim/undofile .SpaceVim .SpaceVim.d .cache/vimfiles .cache/SpaceVim
 }
 
 function install() {
-  cls
-  tar -xvzf SpaceVim.tgz -C $HOME
-  mkdir $HOME/.vim    
-  ln -svf ~/.SpaceVim/* ~/.vim/
+    cls
+    tar -xvzf SpaceVim.tgz -C $HOME
+    mkdir $HOME/.vim    
+    ln -svf ~/.SpaceVim/* ~/.vim/
 
   # configure for neovim
   install_neovim
 }
 
 function package() {
-  tar -cvzf marmotVim$1.tgz ../marmotVim/marmotVimCtl  ../marmotVim/README.md  ../marmotVim/SpaceVim.tgz
-  echo packaged file is: marmotVim$1.tgz
+    tar -cvzf marmotVim$1.tgz ../marmotVim/marmotVimCtl  ../marmotVim/README.md  ../marmotVim/SpaceVim.tgz
+    echo packaged file is: marmotVim$1.tgz
 }
 
 function usage() {
-  echo "usage: $0 {update|install|uninstall|clean|package}"
+    echo "usage: $0 {update|install|uninstall|clean|package}"
 }
 
 case "$1" in
-  'update')
-    update
-    ;;  
-  'install')
-    install
-    ;;  
-  'uninstall')
-    uninstall
-    ;;  
-  'clean')
-    clean
-    ;;  
-  'package')
-    version=$2
-    if [ "$2" != "" ];then
-      version="-$2"
-    fi
-    package $version
-    ;;  
-  '-h')
-    usage
-    ;;  
-  *)  
-    usage
-    exit 1
-    ;;  
+    'update')
+        update
+        ;;  
+    'install')
+        install
+        ;;  
+    'uninstall')
+        uninstall
+        ;;  
+    'clean')
+        clean
+        ;;  
+    'package')
+        version=$2
+        if [ "$2" != "" ];then
+            version="-$2"
+        fi
+        package $version
+        ;;  
+    '-h')
+        usage
+        ;;  
+    *)  
+        usage
+        exit 1
+        ;;  
 esac
